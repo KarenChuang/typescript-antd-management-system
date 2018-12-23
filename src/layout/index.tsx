@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { StyledLayout, Logo, TriggerIcon } from './Styles'
+import Dashboard from '../views/Dashboard'
 
 import {
   Layout, Menu, Icon,
@@ -8,11 +10,26 @@ import {
 const {
   Header, Content, Sider,
 } = Layout;
-// const SubMenu = Menu.SubMenu;
 
+const routes = [
+  {
+    path: "/dashboard",
+    exact: true,
+    main: () => <Dashboard />
+  },
+  {
+    path: "/list",
+    main: () => <h2>list</h2>
+  },
+  {
+    path: "/submit",
+    main: () => <h2>submit</h2>
+  }
+];
 class LayoutContainer extends React.Component {
+  
     state = {
-      collapsed: false,
+      collapsed: false
     };
 
     toggle = () => {
@@ -22,11 +39,12 @@ class LayoutContainer extends React.Component {
     }
     
     onCollapse = (collapsed: boolean) => {
-      // console.log(collapsed);
       this.setState({ collapsed });
     }
+
     render() {
       return (
+        <Router>
           <StyledLayout>
             <Sider
               trigger={null}
@@ -34,18 +52,21 @@ class LayoutContainer extends React.Component {
               collapsed={this.state.collapsed}
             >
               <Logo />
-              <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1">
-                  <Icon type="user" />
-                  <span>nav 1</span>
+              <Menu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']}>
+                <Menu.Item key="dahboard">
+                  <Link to="/dashboard">
+                    <Icon type="user" />dashboard
+                  </Link>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Icon type="video-camera" />
-                  <span>nav 2</span>
+                <Menu.Item key="list">
+                  <Link to="/list">
+                    <Icon type="video-camera" />list
+                  </Link>
                 </Menu.Item>
-                <Menu.Item key="3">
-                  <Icon type="upload" />
-                  <span>nav 3</span>
+                <Menu.Item key="submit">
+                  <Link to="/submit">
+                    <Icon type="upload" />submit
+                  </Link>
                 </Menu.Item>
               </Menu>
             </Sider>
@@ -59,10 +80,22 @@ class LayoutContainer extends React.Component {
                 margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
               }}
               >
-                Content
+              <Switch>
+                {routes.map((route, index) => (
+                  // Render more <Route>s with the same paths as
+                  // above, but different components this time.
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={route.main}
+                  />
+                ))}
+              </Switch>
               </Content>
             </StyledLayout>
           </StyledLayout>
+        </Router>
       );
     }
 }
