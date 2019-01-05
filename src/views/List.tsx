@@ -23,7 +23,8 @@ const data: Array<{ title: string }> = [
 ];
 
 class PageList extends React.Component {
-  renderListItem = (item: { title: string }) => (<List.Item>
+  renderListItem = (item: { title: string }) => (
+  <List.Item>
     <Card title={item.title}>Card content</Card>
   </List.Item>
   )
