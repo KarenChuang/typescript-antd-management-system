@@ -1,44 +1,72 @@
 import * as React from 'react';
-import { List, Card } from 'antd';
+import { List, message } from 'antd';
 
-const data: Array<{ title: string }> = [
+const listData: Array<{ id: number ,title: string }> = [
   {
-    title: 'Title 1',
+    id: 1,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
   {
-    title: 'Title 2',
+    id: 2,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
   {
-    title: 'Title 3',
+    id: 3,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
   {
-    title: 'Title 4',
+    id: 4,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
   {
-    title: 'Title 5',
+    id: 5,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
   {
-    title: 'Title 6',
+    id: 6,
+    title: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
   },
 ];
 
-class PageList extends React.Component {
-  renderListItem = (item: { title: string }) => (
-  <List.Item>
-    <Card title={item.title}>Card content</Card>
-  </List.Item>
+interface IStates {
+  listData: Array<{ id: number ,title: string }>,
+  showHeader: boolean
+}
+class PageList extends React.Component<{}, IStates> {
+  constructor(props: {}) {
+    super(props)
+    this.state = {
+      listData,
+      showHeader: false
+    }
+  }
+  
+  renderListItem = (item: { id: number, title: string }, index: number) => (
+    <List.Item key={item.id}
+      actions={[
+        <a onClick={this.deleteItem.bind(this, item.id)} key={item.id}>delete</a>,
+        <a key={item.id}>more</a>]}>
+      {item.title}
+    </List.Item>
   )
+
+  deleteItem(id: number, e: MouseEvent) {
+    this.setState({
+      listData: this.state.listData.filter(item => item.id !== id)
+    })
+    message.success(`ID： ${id} has been deleted!`)
+  }
 
   render() {
     return (
       <div>
-        <List
-            grid={{
-              gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,
-            }}
-            dataSource={data}
-            renderItem={this.renderListItem}
-          />
+      <List
+          header={this.state.showHeader && <div>Header</div>}
+          footer={<div>Footer</div>}
+          bordered={true}
+          dataSource={this.state.listData}
+          renderItem={this.renderListItem}
+        />
       </div>
     );
   }
