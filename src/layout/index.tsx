@@ -3,6 +3,7 @@ import { Switch, BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { StyledLayout, Logo, TriggerIcon } from './Styles'
 import Dashboard from '../views/Dashboard'
 import List from '../views/List'
+import BasicSubmit from '../views/BasicSubmit'
 
 import {
   Layout, Menu, Icon,
@@ -24,7 +25,7 @@ const routes = [
   },
   {
     path: "/submit",
-    main: () => <h2>submit</h2>
+    main: () => <BasicSubmit />
   }
 ];
 
